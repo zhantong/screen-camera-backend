@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.j256.simplemagic:simplemagic:1.14" type="repository">
+    <properties maven-id="com.j256.simplemagic:simplemagic:1.14" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/j256/simplemagic/simplemagic/1.14/simplemagic-1.14.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/j256/simplemagic/simplemagic/1.14/simplemagic-1.14-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/j256/simplemagic/simplemagic/1.14/simplemagic-1.14-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

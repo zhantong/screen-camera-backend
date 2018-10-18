@@ -7,5 +7,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/openrq-3.4.2-alpha.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="com.j256.simplemagic:simplemagic:1.14" level="project" />
+    <orderEntry type="library" name="ch.qos.logback:logback-core:1.2.3" level="project" />
+    <orderEntry type="library" name="ch.qos.logback:logback-classic:1.2.3" level="project" />
+    <orderEntry type="library" name="org.jcodec:jcodec:0.2.3" level="project" />
   </component>
 </module>
