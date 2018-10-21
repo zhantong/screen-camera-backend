@@ -26,6 +26,7 @@ public class RawImage {
     private int colorType;
     private int index;
     private long timestamp;
+    public String fileName;
 
     private BufferedImage bufferedImage;
 
@@ -57,7 +58,8 @@ public class RawImage {
         offsetV = width * height + width * height / 4;
     }
 
-    public RawImage(BufferedImage bufferedImage) {
+    public RawImage(BufferedImage bufferedImage, String fileName) {
+        this.fileName = fileName;
         this.bufferedImage = bufferedImage;
         this.width = bufferedImage.getWidth();
         this.height = bufferedImage.getHeight();
@@ -702,6 +704,7 @@ public class RawImage {
         Gson gson = new Gson();
         JsonObject root = new JsonObject();
         root.addProperty("index", index);
+        root.addProperty("fileName", fileName);
         root.addProperty("width", width);
         root.addProperty("height", height);
         root.addProperty("colorType", colorType);

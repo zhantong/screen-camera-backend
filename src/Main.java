@@ -16,13 +16,13 @@ public class Main {
         JsonParser parser = new JsonParser();
         JsonObject root = null;
         try {
-            root = parser.parse(new FileReader(new File("configs/ShiftCodeML.json"))).getAsJsonObject();
+            root = parser.parse(new FileReader(new File("configs/BlackWhiteCodeML.json"))).getAsJsonObject();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ShiftCodeMLStream shiftCodeMLStream = new ShiftCodeMLStream();
-        shiftCodeMLStream.configureBarcode(root);
-        LinkedBlockingQueue<RawImage> queue = shiftCodeMLStream.getQueue();
+        BlackWhiteCodeMLStream blackWhiteCodeMLStream = new BlackWhiteCodeMLStream();
+        blackWhiteCodeMLStream.configureBarcode(root);
+        LinkedBlockingQueue<RawImage> queue = blackWhiteCodeMLStream.getQueue();
         Thread thread = new Thread() {
             public void run() {
                 File directory = new File("/Users/zhantong/Desktop/Screen-Camera-Backend-Preprocess/VID_20180913_155407");
@@ -35,7 +35,7 @@ public class Main {
                         try {
                             JsonObject settings = new JsonObject();
                             settings.add("thresholds", new Gson().toJsonTree(new int[]{220, 0, 0}));
-                            RawImage rawImage = new RawImage(frame);
+                            RawImage rawImage = new RawImage(frame, image.getName());
                             rawImage.customSettings(settings);
                             queue.put(rawImage);
                         } catch (InterruptedException e) {
@@ -48,6 +48,6 @@ public class Main {
             }
         };
         thread.start();
-        shiftCodeMLStream.start();
+        blackWhiteCodeMLStream.start();
     }
 }
