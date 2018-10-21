@@ -81,11 +81,14 @@ public class RawImage {
     public int getPixel(int x, int y, int channel) {
         if (channel == RawImage.CHANNEL_GRAY) {
             if (this.bufferedImage != null) {
-                int rgb = bufferedImage.getRGB(x, y);
-                int b = rgb & 0xff;
-                int g = (rgb & 0xff00) >> 8;
-                int r = (rgb & 0xff0000) >> 16;
-                return (int) (0.299 * r + 0.587 * g + 0.114 * b);
+                if (bufferedImage.getType() == BufferedImage.TYPE_BYTE_GRAY) {
+                    return bufferedImage.getRaster().getSample(x, y, 0);
+                } else {
+                    int r = bufferedImage.getRaster().getSample(x, y, 0);
+                    int g = bufferedImage.getRaster().getSample(x, y, 1);
+                    int b = bufferedImage.getRaster().getSample(x, y, 2);
+                    return (int) (0.299 * r + 0.587 * g + 0.114 * b);
+                }
             }
         }
         switch (channel) {
