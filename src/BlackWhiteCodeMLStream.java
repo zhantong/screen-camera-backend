@@ -36,7 +36,7 @@ public class BlackWhiteCodeMLStream extends StreamDecode {
 
     MediateBarcode getMediateBarcode(RawImage rawImage) {
         try {
-            return new MediateBarcode(rawImage, barcodeConfig, null, RawImage.CHANNLE_Y);
+            return new MediateBarcode(rawImage, barcodeConfig, null, RawImage.CHANNEL_GRAY);
         } catch (NotFoundException e) {
             return null;
         }
@@ -51,10 +51,8 @@ public class BlackWhiteCodeMLStream extends StreamDecode {
     public void processFrame(RawImage frame) {
         Gson gson = new Gson();
         JsonObject jsonRoot = new JsonObject();
-        if (frame.getPixels() == null) {
-            return;
-        }
         LOG.info(frame.toString());
+        LOG.info(frame.fileName);
         MediateBarcode mediateBarcode = getMediateBarcode(frame);
         if (DUMP) {
             jsonRoot.add("image", frame.toJson());
@@ -92,14 +90,14 @@ public class BlackWhiteCodeMLStream extends StreamDecode {
                         int numSourceBlock = Integer.parseInt(barcodeConfig.hints.get(BlackWhiteCodeML.KEY_NUMBER_RAPTORQ_SOURCE_BLOCKS).toString());
                         FECParameters parameters = FECParameters.newParameters(transmitFileLengthInBytes, raptorQSymbolSize, numSourceBlock);
                         if (DUMP) {
-                            LOG.info(CustomMarker.fecParameters, new Gson().toJson(Utils.fecParametersToJson(parameters)));
+                            FILE_LOG.info(CustomMarker.fecParameters, new Gson().toJson(Utils.fecParametersToJson(parameters)));
                         }
                     }
                 }
             }
         }
         if (DUMP) {
-            LOG.info(CustomMarker.processed, new Gson().toJson(jsonRoot));
+            FILE_LOG.info(CustomMarker.processed, new Gson().toJson(jsonRoot));
         }
     }
 }
