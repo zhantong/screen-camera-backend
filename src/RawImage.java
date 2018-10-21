@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 /**
@@ -17,6 +18,7 @@ public class RawImage {
     public static final int CHANNLE_Y = 0;
     public static final int CHANNLE_U = 1;
     public static final int CHANNLE_V = 2;
+    public static final int CHANNEL_GRAY = 0;
 
     private byte[] pixels;
     private int width;
@@ -24,6 +26,8 @@ public class RawImage {
     private int colorType;
     private int index;
     private long timestamp;
+
+    private BufferedImage bufferedImage;
 
     private int[] thresholds;
 
@@ -53,11 +57,30 @@ public class RawImage {
         offsetV = width * height + width * height / 4;
     }
 
+    public RawImage(BufferedImage bufferedImage) {
+        this.bufferedImage = bufferedImage;
+        this.width = bufferedImage.getWidth();
+        this.height = bufferedImage.getHeight();
+        this.colorType = RawImage.COLOR_TYPE_RGB;
+        this.index = 0;
+        this.timestamp = 0;
+        thresholds = new int[3];
+    }
+
     public long getTimestamp() {
         return timestamp;
     }
 
     public int getPixel(int x, int y, int channel) {
+        if (channel == RawImage.CHANNEL_GRAY) {
+            if (this.bufferedImage != null) {
+                int rgb = bufferedImage.getRGB(x, y);
+                int b = rgb & 0xff;
+                int g = (rgb & 0xff00) >> 8;
+                int r = (rgb & 0xff0000) >> 16;
+                return (int) (0.299 * r + 0.587 * g + 0.114 * b);
+            }
+        }
         switch (channel) {
             case CHANNLE_Y:
                 return pixels[y * width + x] & 0xff;
@@ -649,7 +672,6 @@ public class RawImage {
     }
 
     public int getBinary(int x, int y, int channel) {
-        System.out.println(getPixel(x, y, channel)+" "+thresholds[channel]);
         if (getPixel(x, y, channel) >= thresholds[channel]) {
             return 1;
         } else {

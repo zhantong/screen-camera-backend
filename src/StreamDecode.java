@@ -160,7 +160,7 @@ public class StreamDecode {
 
     public void stream(LinkedBlockingQueue<RawImage> frames) throws InterruptedException {
         beforeStream();
-        for (RawImage frame; ((frame = frames.poll(QUEUE_TIME_OUT, TimeUnit.SECONDS)) != null) && (frame.getPixels() != null); ) {
+        for (RawImage frame; ((frame = frames.poll(QUEUE_TIME_OUT, TimeUnit.SECONDS)) != null); ) {
             processFrame(frame);
             if (stopQueue) {
                 if (isVideo) {

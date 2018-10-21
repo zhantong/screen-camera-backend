@@ -43,14 +43,11 @@ public class ShiftCodeMLStream extends BlackWhiteCodeMLStream {
         int raptorQSymbolSize = -1;
         ArrayDataDecoder dataDecoder = null;
         JsonObject barcodeJson = new JsonObject();
-        if (frame.getPixels() == null) {
-            return;
-        }
         LOG.info(frame.toString());
 
         MediateBarcode mediateBarcode;
         try {
-            mediateBarcode = new MediateBarcode(frame, barcodeConfig, null, RawImage.CHANNLE_Y);
+            mediateBarcode = new MediateBarcode(frame, barcodeConfig, null, RawImage.CHANNEL_GRAY);
         } catch (NotFoundException e) {
             LOG.info("barcode not found");
             return;
@@ -100,7 +97,7 @@ public class ShiftCodeMLStream extends BlackWhiteCodeMLStream {
                     FECParameters parameters;
                     try {
                         parameters = FECParameters.newParameters(head, raptorQSymbolSize, numSourceBlock);
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                         return;
                     }
