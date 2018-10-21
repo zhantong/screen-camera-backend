@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -32,7 +33,11 @@ public class Main {
                     try {
                         BufferedImage frame = ImageIO.read(image);
                         try {
-                            queue.put(new RawImage(frame));
+                            JsonObject settings = new JsonObject();
+                            settings.add("thresholds", new Gson().toJsonTree(new int[]{220, 0, 0}));
+                            RawImage rawImage = new RawImage(frame);
+                            rawImage.customSettings(settings);
+                            queue.put(rawImage);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

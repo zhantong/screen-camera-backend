@@ -65,6 +65,13 @@ public class RawImage {
         this.index = 0;
         this.timestamp = 0;
         thresholds = new int[3];
+        Arrays.fill(thresholds, -1);
+    }
+
+    public void customSettings(JsonObject settings) {
+        if (settings.has("thresholds")) {
+            thresholds = new Gson().fromJson(settings.get("thresholds").getAsJsonArray(), int[].class);
+        }
     }
 
     public long getTimestamp() {
@@ -111,12 +118,16 @@ public class RawImage {
 
     public void getThreshold(int[] channels) throws NotFoundException {
         for (int channel : channels) {
-            thresholds[channel] = getThreshold2(channel);
+            if (thresholds[channel] == -1) {
+                thresholds[channel] = getThreshold2(channel);
+            }
         }
     }
 
     public void getThreshold(int channel) throws NotFoundException {
-        thresholds[channel] = getThreshold1(channel);
+        if (thresholds[channel] == -1) {
+            thresholds[channel] = getThreshold1(channel);
+        }
     }
 
     private int getThreshold2(int channel) throws NotFoundException {
