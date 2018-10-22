@@ -58,13 +58,13 @@ public class RawImage {
         offsetV = width * height + width * height / 4;
     }
 
-    public RawImage(BufferedImage bufferedImage, String fileName) {
+    public RawImage(BufferedImage bufferedImage, int index, String fileName) {
         this.fileName = fileName;
         this.bufferedImage = bufferedImage;
         this.width = bufferedImage.getWidth();
         this.height = bufferedImage.getHeight();
         this.colorType = RawImage.COLOR_TYPE_RGB;
-        this.index = 0;
+        this.index = index;
         this.timestamp = 0;
         thresholds = new int[3];
         Arrays.fill(thresholds, -1);

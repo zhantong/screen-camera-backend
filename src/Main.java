@@ -28,14 +28,15 @@ public class Main {
                 File directory = new File("/Users/zhantong/Desktop/Screen-Camera-Backend-Preprocess/VID_20180913_155407");
                 File[] images = directory.listFiles();
                 Arrays.sort(images);
-                for (File image : images) {
+                for (int i = 0; i < images.length; i++) {
+                    File image = images[i];
                     System.out.println(image.getName());
                     try {
                         BufferedImage frame = ImageIO.read(image);
                         try {
                             JsonObject settings = new JsonObject();
                             settings.add("thresholds", new Gson().toJsonTree(new int[]{220, 0, 0}));
-                            RawImage rawImage = new RawImage(frame, image.getName());
+                            RawImage rawImage = new RawImage(frame, i, image.getName());
                             rawImage.customSettings(settings);
                             queue.put(rawImage);
                         } catch (InterruptedException e) {
