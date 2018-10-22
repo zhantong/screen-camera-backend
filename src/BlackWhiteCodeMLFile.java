@@ -18,12 +18,13 @@ public class BlackWhiteCodeMLFile extends BlackWhiteCodeStream {
     private BlackWhiteCodeML blackWhiteCodeML;
 
 
-    public BlackWhiteCodeMLFile() {
-        blackWhiteCodeML = getBarcodeInstance(new MediateBarcode(barcodeConfig));
-    }
-
     BlackWhiteCodeML getBarcodeInstance(MediateBarcode mediateBarcode) {
         return new BlackWhiteCodeML(mediateBarcode);
+    }
+
+    void configureBarcode(JsonObject jsonRoot) {
+        super.configureBarcode(jsonRoot);
+        blackWhiteCodeML = getBarcodeInstance(new MediateBarcode(barcodeConfig));
     }
 
 
@@ -67,7 +68,7 @@ public class BlackWhiteCodeMLFile extends BlackWhiteCodeStream {
             if (encodingPacket != null) {
                 raptorQJsonRoot.add("encodingPacket", Utils.encodingPacketToJson(encodingPacket));
                 if (isLastEncodingPacket(encodingPacket)) {
-                    FILE_LOG.info(TAG, "last encoding packet: " + encodingPacket.encodingSymbolID());
+                    LOG.info("last encoding packet: " + encodingPacket.encodingSymbolID());
                     setStopQueue();
                 }
                 dataDecoder.sourceBlock(encodingPacket.sourceBlockNumber()).putEncodingPacket(encodingPacket);
